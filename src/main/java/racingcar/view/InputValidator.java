@@ -1,12 +1,14 @@
 package racingcar.view;
 
+import racingcar.domain.Car;
+
 import java.util.Arrays;
 import java.util.List;
 
 public class InputValidator {
     private static final String INVALID_NUMBER_FORMAT_MESSAGE = "숫자 형식 입력이 아닙니다.";
 
-    public static List<String> validateInputCarNames(String input) {
+    public static List<Car> validateInputCarNames(String input) {
         return splitInputByComma(input);
     }
 
@@ -14,8 +16,9 @@ public class InputValidator {
         return convertStringToInteger(input);
     }
 
-    private static List<String> splitInputByComma(String input) {
+    private static List<Car> splitInputByComma(String input) {
         return Arrays.stream(input.split(","))
+                .map(Car::new)
                 .toList();
     }
 
