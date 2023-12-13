@@ -5,8 +5,7 @@ import racingcar.domain.Car;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class RacingCarController {
@@ -26,22 +25,36 @@ public class RacingCarController {
         for (int i = 0; i < numberRaces; i++) {
             outputView.printRaceResult(race(raceCars));
         }
+        outputView.printWinners(determineWinners(raceCars));
     }
 
     public Map<Car, String> race(Map<Car, String> raceCars) {
-        for (Car car : raceCars.keySet()) {
+        raceCars.forEach((car, currentProgress) -> {
             int randomNumber = randomNumber();
             if (isForward(randomNumber)) {
-                String currentProgress = raceCars.getOrDefault(car, "");
                 raceCars.put(car, currentProgress + "-");
             }
-        }
+        });
         return raceCars;
     }
 
+    public String determineWinners(Map<Car, String> raceCars) {
+        String winnerResult = raceCars.values().stream()
+                .max(Comparator.comparingInt(String::length))
+                .orElseThrow(IllegalArgumentException::new);
+
+        return raceCars.entrySet().stream()
+                .filter(entry -> entry.getValue().equals(winnerResult))
+                .map(entry -> entry.getKey().getName())
+                .collect(Collectors.joining(","));
+    }
+
     private Map<Car, String> initRaceCar(List<Car> cars) {
-        return cars.stream()
-                .collect(Collectors.toMap(car -> car, car -> ""));
+        Map<Car, String> raceCars = new LinkedHashMap<>();
+        for (Car car : cars) {
+            raceCars.put(car, "");
+        }
+        return raceCars;
     }
 
     private boolean isForward(int randomNumber) {
