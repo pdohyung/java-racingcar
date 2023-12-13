@@ -7,7 +7,7 @@ import java.util.Map;
 import static java.text.MessageFormat.*;
 
 public class OutputView {
-    private static final String PRINT_START_RESULT_MESSAGE = "실행 결과";
+    private static final String PRINT_START_RESULT_MESSAGE = "\n실행 결과";
     private static final String PRINT_RACE_RESULT_FORMAT = "{0} : {1}";
     private static final String PRINT_WINNERS_FORMAT = "최종 우승자 : {0}";
 
